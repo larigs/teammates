@@ -429,4 +429,50 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
 
         assertEquals(0, feedbackQuestionDetails.validateQuestionDetails().size());
     }
+
+    @Test
+    public void testGetMinMaxPointErrors(){
+        
+        FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        
+        //CT 1
+        List<Integer> answers =  new ArrayList<>(Arrays.asList(1, 9, 101, 200));
+        List<String> errors =  new ArrayList<>();
+        assertEquals(feedbackQuestionDetails.getMinMaxPointErrors(answers), errors);
+        
+        //CT 2
+        answers =  new ArrayList<>(Arrays.asList(1, 9, 80, 100));
+        errors =  new ArrayList<>();
+        assertEquals(feedbackQuestionDetails.getMinMaxPointErrors(answers), errors);
+        
+        //CT 3
+        feedbackQuestionDetails.setMaxPoint(100);
+        answers =  new ArrayList<>(Arrays.asList(1, 9, 101, 200));
+        errors =  new ArrayList<>(Arrays.asList("An answer cannot be greater than the maximum number of points: 100", 
+                        "An answer cannot be greater than the maximum number of points: 100"));
+        assertEquals(feedbackQuestionDetails.getMinMaxPointErrors(answers), errors);
+        
+        //CT 4
+        answers =  new ArrayList<>(Arrays.asList(1, 9, 80, 100));
+        errors =  new ArrayList<>();
+        assertEquals(feedbackQuestionDetails.getMinMaxPointErrors(answers), errors);
+        
+        //CT 5
+        answers =  new ArrayList<>(Arrays.asList(10, 20, 80, 100));
+        errors =  new ArrayList<>();
+        assertEquals(feedbackQuestionDetails.getMinMaxPointErrors(answers), errors);
+        
+        //CT 6
+        feedbackQuestionDetails.setMinPoint(10);
+        answers =  new ArrayList<>(Arrays.asList(1, 9, 80, 100));
+        errors =  new ArrayList<>(Arrays.asList("An answer cannot be smaller than the minimum number of points: 10", 
+                        "An answer cannot be smaller than the minimum number of points: 10"));
+        assertEquals(feedbackQuestionDetails.getMinMaxPointErrors(answers), errors);
+        
+        //CT 7
+        answers =  new ArrayList<>(Arrays.asList(10, 20, 80, 100));
+        errors =  new ArrayList<>();
+        assertEquals(feedbackQuestionDetails.getMinMaxPointErrors(answers), errors);
+    }
+
 }

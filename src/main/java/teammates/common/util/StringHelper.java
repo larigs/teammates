@@ -87,7 +87,7 @@ public final class StringHelper {
         try {
             SecretKeySpec signingKey =
                     new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "HmacSHA1");
-            Mac mac = Mac.getInstance("HmacSHA1");
+            Mac mac = Mac.getInstance("SHA-512");
             mac.init(signingKey);
             byte[] value = mac.doFinal(data.getBytes(Const.ENCODING));
             return byteArrayToHexString(value);
